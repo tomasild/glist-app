@@ -1,12 +1,10 @@
 import React from "react";
 import { BiChevronDown } from "react-icons/bi";
-import SongList from "./SongList";
-import MusicPlayer from './MusicPlayer'
 
-function Center() {
+function Center({children}) {
   return (
     <div className="flex-grow text-white overflow-y-scroll h-screen scrollbar-hide">
-      <header className="absolute top-5 right-7">
+      <header className="absolute top-5 right-7 ">
         <div className="flex items-center bg-slate-800 space-x-3 opacity-90 hover:opacity-75 cursor-pointer rounded-full p-1 pr-2">
           <img
             className="w-10 h-10 rounded-full border-2 border-slate-300 m-1"
@@ -19,20 +17,20 @@ function Center() {
       </header>
 
       <section className="w-full flex items-end space-x-7 bg-gradient-to-b to-black from-orange-950 h-64 text-white font-bold p-8">
-        <img className="h-40 w-40 shadow-2xl rounded-xl" src="./src/assets/glist logo.jpeg" alt="" />
-        <div className="text-white">
-            <p>PLAYLIST</p>
-            <h1 className="text-2xl md:text-3xl xl:text-5xl">Groovelist</h1>
+        <img
+          className="h-40 w-40 shadow-2xl rounded-xl animate-slowfade"
+          src="./src/assets/glist logo.jpeg"
+          alt=""
+        />
+        <div className="text-white animate-slowfade">
+          <p>PLAYLIST</p>
+          <h1 className="text-2xl md:text-3xl xl:text-5xl">Groovelist</h1>
         </div>
       </section>
 
-      <div className="">
-        <SongList />
+      <div>
+        {children}
       </div>
-
-        
-
-
     </div>
   );
 }
