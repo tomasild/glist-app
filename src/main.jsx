@@ -1,14 +1,14 @@
 import React, { StrictMode } from "react";
-import ReactDOM from "react-dom";
-import "./index.css"; // Agregamos el archivo CSS de Tailwind
+import { createRoot } from 'react-dom/client'; // Cambio en la importación
+import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(
+// Reemplazamos ReactDOM.render() con createRoot().render()
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-    <App />
+      <App />
     </BrowserRouter>
-  </StrictMode>,
-  document.getElementById("root")
+  </StrictMode>
 );

@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       animation: {
-        slideup: 'slideup 0.5s ease-in-out',
+        slideup: 'slideup 0.8s ease-in-out',
         slidedown: 'slidedown 1s ease-in-out',
         slideleft: 'slideleft 1s ease-in-out',
         slideright: 'slideright 1s ease-in-out',
         wave: 'wave 1.2s linear infinite',
-        slowfade: 'slowfade 2.2s ease-in-out',
+        slowfade: 'slowfade 1.2s ease-in-out',
       },
       keyframes: {
         slowfade: {

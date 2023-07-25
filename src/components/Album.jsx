@@ -1,25 +1,15 @@
 import React from "react";
-import Card from "./Card"; // Assuming both components are in the same directory
+import Card from "./Card";
 
-function Album() {
-  
-  const albumData = {
-    title: "Album Name",
-    year: "Year",
-    imageSrc: "./src/assets/glist logo.jpeg",
-    id: "ID",
-    updated: "Updated Date",
-    created: "Created Date",
-  };
-
+function Album({ title, year, _id, updatedAt, createdAt }) {
   return (
     <Card
-      title={albumData.title}
-      year={albumData.year}
-      imageSrc={albumData.imageSrc}
-      id={albumData.id}
-      updated={albumData.updated}
-      created={albumData.created}
+      title={title}
+      year={year}
+      imageSrc="./src/assets/glist logo.jpeg"
+      _id={_id}
+      updated={updatedAt}
+      created={createdAt}
     />
   );
 }

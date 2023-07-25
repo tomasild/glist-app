@@ -3,7 +3,7 @@ import { BiChevronDown } from "react-icons/bi";
 
 function Center({children}) {
   return (
-    <div className="flex-grow text-white overflow-y-scroll h-screen scrollbar-hide">
+    <div className="flex-grow text-white overflow-y-scroll h-screen scrollbar-hide animate-slowfade">
       <header className="absolute top-5 right-7 ">
         <div className="flex items-center bg-slate-800 space-x-3 opacity-90 hover:opacity-75 cursor-pointer rounded-full p-1 pr-2">
           <img
