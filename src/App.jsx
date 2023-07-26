@@ -8,6 +8,8 @@ import AlbumList from "./pages/AlbumList";
 import SongList from "./pages/SongList";
 import AlbumDetails from "./pages/AlbumDetails";
 import SongDetails from "./pages/SongDetails";
+import AddAlbumForm from "./forms/AddAlbumForm";
+import AddSongForm from "./forms/AddSongForm";
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
           <Route path="/album-list" element={<Center> <AlbumList /> </Center>} />
           <Route path="/album/:albumId" element={<AlbumDetails />} />
           <Route path="/song/:songId" element={<Center><SongDetails /></Center>} />
+          <Route path="/add-album" element={<AddAlbumForm />} />
+          <Route path="/add-song" element={<AddSongForm />} />
         </Routes>
       </main>
       <div className="absolute b-0 w-full text-white">

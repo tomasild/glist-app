@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Song from "../components/Song"
+import Song from "../components/Song";
 
 function AlbumDetails() {
   const { albumId } = useParams();
@@ -29,17 +29,6 @@ function AlbumDetails() {
         console.error("Error al obtener canciones del álbum:", err);
       });
   }, [albumId]);
-
-  const [songData, setSongData] = useState([]);
-  useEffect(() => {
-    console.log("Obteniendo canciones desde el backend");
-    axios
-      .get("http://localhost:3000/api/songs/") 
-      .then((res) => setSongData(res.data))
-      .catch((err) => {
-        console.error("Error al obtener las canciones:", err);
-      });
-  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -72,17 +61,17 @@ function AlbumDetails() {
         <h2 className="mb-4 ml-2">Album songs</h2>
         {albumSongs.length > 0 ? (
           <ul className="space-y-1">
-          {songData.map((song, index) => (
-            <li key={song._id}>
-              <Song
-                title={song.title}
-                duration={song.duration}
-                albumId={song.albumId._id}
-                index={index + 1}
-              />
-            </li>
-          ))}
-        </ul>
+            {albumSongs.map((song, index) => (
+              <li key={song._id}>
+                <Song
+                  title={song.title}
+                  duration={song.duration}
+                  albumId={song.albumId._id}
+                  index={index + 1}
+                />
+              </li>
+            ))}
+          </ul>
         ) : (
           <p className="text-white m-5 animate-slideup">No se encontraron canciones asociadas al álbum.</p>
         )}

@@ -24,7 +24,7 @@ function AlbumList() {
   return (
     <div className="text-white m-5 animate-slideup">
       <h2 className="mb-4 ml-2">Lista de Álbumes</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <ul className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {albums.map((album) => (
           <li key={album._id}>
             <Album
