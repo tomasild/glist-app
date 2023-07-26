@@ -17,6 +17,7 @@ function Card({ title, year, imageSrc, _id, updated, created }) {
         <div className="flex flex-col flex-grow items-center justify-between mt-2">
           <p className="truncate">Updated: {updated}</p>
           <p className="truncate">Created: {created}</p>
+          <p className="truncate">{_id}</p>
         </div>
       </div>
     </div>

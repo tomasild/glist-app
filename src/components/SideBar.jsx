@@ -9,7 +9,7 @@ function SideBar() {
   return (
     <div className="text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen scrollbar-hide hidden md:inline-flex">
       <div className="space-y-4">
-        <img src="./src/assets/glist logo nobg.png" className="w-20 h-20" />
+        <img src="../public/assets/glist logo nobg.png" className="w-20 h-20" />
 
         <Link to="/" className="flex space-x-2 items-center hover:text-white">
           <ImHome className="h-5 w-5" />

@@ -19,7 +19,7 @@ function Center({children}) {
       <section className="w-full flex items-end space-x-7 bg-gradient-to-b to-black from-orange-950 h-64 text-white font-bold p-8">
         <img
           className="h-40 w-40 shadow-2xl rounded-xl animate-slowfade"
-          src="./src/assets/glist logo.jpeg"
+          src="../public/assets/glist logo.jpeg"
           alt=""
         />
         <div className="text-white animate-slowfade">

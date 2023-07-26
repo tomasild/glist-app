@@ -8,7 +8,7 @@ function SongList() {
   useEffect(() => {
     console.log("Obteniendo canciones desde el backend");
     axios
-      .get("http://localhost:3000/api/songs/") // Asegúrate de que la URL sea correcta y apunte a tu servidor de Express
+      .get("http://localhost:3000/api/songs/") 
       .then((res) => setSongData(res.data))
       .catch((err) => {
         console.error("Error al obtener las canciones:", err);

@@ -10,7 +10,7 @@ function MusicPlayer() {
       <div className="flex items-center space-x-4">
         <img
           className="w-10 h-10 hidden md:inline"
-          src="./src/assets/glist logo.jpeg"
+          src="../public/assets/glist logo.jpeg"
           alt=""
         />
       <div>
