@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from "react";
 import Song from "../components/Song";
 import axios from "axios";
+import Search from "../components/Search";
 
 function SongList() {
   const [songData, setSongData] = useState([]);
+  const [filteredSongs, setFilteredSongs] = useState([]);
 
   useEffect(() => {
     console.log("Obteniendo canciones desde el backend");
     axios
-      .get("http://localhost:3000/api/songs/") 
-      .then((res) => setSongData(res.data))
+      .get("http://localhost:3000/api/songs/")
+      .then((res) => {
+        setSongData(res.data);
+        setFilteredSongs(res.data);
+      })
       .catch((err) => {
         console.error("Error al obtener las canciones:", err);
       });
   }, []);
 
+  const handleSearch = (searchTerm) => {
+    const filtered = songData.filter((song) =>
+      song.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredSongs(filtered);
+  };
+
   return (
     <div className="text-white m-5 animate-slideup">
-      <h2 className="mb-4 ml-2">Songs List</h2>
+      <Search onSearch={handleSearch} />
       <ul className="space-y-1">
-        {songData.map((song, index) => (
+        {filteredSongs.map((song, index) => (
           <li key={song._id}>
             <Song
               title={song.title}

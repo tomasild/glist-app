@@ -8,7 +8,7 @@ function Album({ title, year, _id, updatedAt, createdAt }) {
       <Card
         title={title}
         year={year}
-        imageSrc="../public/assets/glist logo.jpeg"
+        imageSrc="/assets/glist logo.jpeg"
         _id={_id}
         updated={updatedAt}
         created={createdAt}

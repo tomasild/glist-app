@@ -21,7 +21,7 @@ function AlbumDetails() {
 
     console.log("Obteniendo canciones del álbum desde el backend");
     axios
-      .get(`http://localhost:3000/api/songs/album/${albumId}/songs`)
+      .get(`http://localhost:3000/api/songs/album/${albumId}`)
       .then((res) => {
         setAlbumSongs(res.data);
       })
@@ -46,10 +46,22 @@ function AlbumDetails() {
               alt=""
             />
             <div className="text-white animate-slowfade">
-              <p><strong>Title:  </strong>{albumData.title}</p>
-              <p><strong>Year:  </strong>{albumData.year}</p>
-              <p><strong>Updated:  </strong>{formatDate(albumData.updatedAt)}</p>
-              <p><strong>Created:  </strong>{formatDate(albumData.createdAt)}</p>
+              <p>
+                <strong>Title: </strong>
+                {albumData.title}
+              </p>
+              <p>
+                <strong>Year: </strong>
+                {albumData.year}
+              </p>
+              <p>
+                <strong>Updated: </strong>
+                {formatDate(albumData.updatedAt)}
+              </p>
+              <p>
+                <strong>Created: </strong>
+                {formatDate(albumData.createdAt)}
+              </p>
             </div>
           </>
         ) : (
@@ -73,7 +85,9 @@ function AlbumDetails() {
             ))}
           </ul>
         ) : (
-          <p className="text-white m-5 animate-slideup">No se encontraron canciones asociadas al álbum.</p>
+          <p className="text-white m-5 animate-slideup">
+            No se encontraron canciones asociadas al álbum.
+          </p>
         )}
       </div>
     </div>

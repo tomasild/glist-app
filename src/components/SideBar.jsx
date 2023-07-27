@@ -9,28 +9,33 @@ function SideBar() {
   return (
     <div className="text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen scrollbar-hide hidden md:inline-flex">
       <div className="space-y-4">
-        <img src="../public/assets/glist logo nobg.png" className="w-20 h-20" />
+        <img src="/assets/glist logo nobg.png" className="w-20 h-20" />
 
         <Link to="/" className="flex space-x-2 items-center hover:text-white">
           <ImHome className="h-5 w-5" />
           <p>Home</p>
         </Link>
 
-        <Link to="/search" className="flex space-x-2 items-center hover:text-white">
+        <Link
+          to="/search"
+          className="flex space-x-2 items-center hover:text-white"
+        >
           <ImSearch className="h-5 w-5" />
           <p>Search</p>
         </Link>
 
         <Link
           to="/song-list"
-          className="flex space-x-2 items-center hover:text-white">
+          className="flex space-x-2 items-center hover:text-white"
+        >
           <MdLibraryMusic className="h-5 w-5" />
           <p>Songs</p>
         </Link>
 
         <Link
           to="/album-list"
-          className="flex space-x-2 items-center hover:text-white">
+          className="flex space-x-2 items-center hover:text-white"
+        >
           <RiFolderMusicFill className="h-5 w-5" />
           <p>Albums</p>
         </Link>
@@ -39,14 +44,16 @@ function SideBar() {
 
         <Link
           to="/add-song"
-          className="flex space-x-2 items-center hover:text-white">
+          className="flex space-x-2 items-center hover:text-white"
+        >
           <MdLibraryAdd className="h-5 w-5" />
           <p>Add song</p>
         </Link>
 
         <Link
           to="/add-album"
-          className="flex space-x-2 items-center hover:text-white">
+          className="flex space-x-2 items-center hover:text-white"
+        >
           <FaFolderPlus className="h-5 w-5" />
           <p>Add album</p>
         </Link>
