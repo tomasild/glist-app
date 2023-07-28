@@ -38,6 +38,7 @@ function SongList() {
               duration={song.duration}
               albumId={song.albumId._id}
               index={index + 1}
+              _id={song._id} // Pasar el ID de la canción a Song
             />
           </li>
         ))}

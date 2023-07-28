@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const AddSongForm = () => {
-  const [title, setTitle] = useState("");
+  const [titulo, setTitulo] = useState("");
   const [albumId, setAlbumId] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duracion, setDuracion] = useState("");
   const [albums, setAlbums] = useState([]);
+  const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -19,61 +20,60 @@ const AddSongForm = () => {
     fetchAlbums();
   }, []);
 
-  const durationRegex = /^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$/;
-
-  const formatDuration = (input) => {
-    // Remove all non-numeric characters from the input
-    const numericOnly = input.replace(/[^\d]/g, "");
-    
-    // Use regular expression to format the numeric input as HH:mm:ss
-    const formattedDuration = numericOnly.replace(
-      /(\d{2})(\d{2})(\d{2})/,
-      "$1:$2:$3"
-    );
-
-    return formattedDuration;
+  const handleDuracionChange = (e) => {
+    setDuracion(e.target.value);
   };
 
-  const handleDurationChange = (e) => {
-    const inputDuration = e.target.value;
-  
-    // Remove any non-numeric and non-colon characters from the input
-    const cleanedDuration = inputDuration.replace(/[^0-9:]/g, "");
-  
-    // Use regular expression to format the numeric input as HH:mm:ss
-    const formattedDuration = cleanedDuration.replace(
-      /(\d{2})(\d{2})(\d{0,2}).*/,
-      (_, p1, p2, p3) => {
-        let result = p1;
-        if (p2) result += ":" + p2;
-        if (p3) result += ":" + p3;
-        return result;
-      }
-    );
-  
-    // Limit the input length to 8 characters (HH:mm:ss format)
-    if (formattedDuration.length <= 8) {
-      setDuration(formattedDuration);
-    } else {
-      // Truncate the input if it exceeds 8 characters
-      setDuration(formattedDuration.slice(0, 8));
+  const handleFileChange = (e) => {
+    const archivo = e.target.files[0];
+    if (archivo) {
+      setArchivoSeleccionado(archivo);
+
+      // Obtenemos la información del archivo seleccionado
+      const audio = new Audio();
+      audio.src = URL.createObjectURL(archivo);
+      audio.addEventListener("loadedmetadata", () => {
+        // Rellenar automáticamente la duración de la canción
+        const duracionArchivo = Math.floor(audio.duration);
+        const minutos = Math.floor(duracionArchivo / 60);
+        const segundos = duracionArchivo % 60;
+        setDuracion(`${minutos}:${segundos.toString().padStart(2, "0")}`);
+
+        // Rellenar automáticamente el título de la canción con el nombre del archivo sin la extensión
+        const nombreArchivo = archivo.name.replace(/\.[^/.]+$/, "");
+        setTitulo(nombreArchivo);
+      });
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validar que todos los campos requeridos estén completos antes de enviar la solicitud POST
+    if (!titulo || !albumId || !duracion || !archivoSeleccionado) {
+      console.error("Todos los campos son obligatorios.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", titulo);
+    formData.append("albumId", albumId);
+    formData.append("duration", duracion);
+    formData.append("audioFile", archivoSeleccionado);
+
     try {
-      const response = await axios.post("http://localhost:3000/api/songs", {
-        title,
-        albumId,
-        duration,
+      const response = await axios.post("http://localhost:3000/api/songs", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       console.log("Canción agregada:", response.data);
 
-      setTitle("");
+      setTitulo("");
       setAlbumId("");
-      setDuration("");
+      setDuracion("");
+      setArchivoSeleccionado(null);
     } catch (error) {
       console.error("Error al agregar la canción:", error);
     }
@@ -100,26 +100,34 @@ const AddSongForm = () => {
           </select>
         </div>
         <div className="flex justify-end">
-          <label className="mr-2">Title</label>
+          <label className="mr-2">Audio file</label>
+          <input
+            type="file"
+            accept="audio/*"
+            onChange={handleFileChange}
+            required
+            className="w-full rounded-md bg-slate-600 p-1 mb-2"
+          />
+        </div>
+        <div className="flex justify-end">
+          <label className="mr-2">Título</label>
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
             required
             className="w-full rounded-md bg-slate-600 p-1"
           />
         </div>
         <div className="flex justify-end">
-          <label className="mr-2">Duration</label>
+          <label className="mr-2">Duración</label>
           <input
             type="text"
-            placeholder="hh:mm:ss"
-            value={duration}
-            onChange={handleDurationChange}
+            placeholder="mm:ss"
+            value={duracion}
+            onChange={handleDuracionChange}
             required
             className="w-full rounded-md bg-slate-600 p-1 mb-2"
-            pattern={durationRegex.source}
-            title="Formato inválido. Utilice el formato hh:mm:ss"
           />
         </div>
         <button
