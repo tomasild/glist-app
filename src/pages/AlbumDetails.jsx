@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Song from "../components/Song";
+import { RxUpdate } from "react-icons/rx";
+import { RiDeleteBinFill } from "react-icons/ri";
 
 function AlbumDetails() {
   const { albumId } = useParams();
@@ -41,14 +43,22 @@ function AlbumDetails() {
         {albumData ? (
           <>
             <img
-              className="h-40 w-40 shadow-2xl rounded-xl animate-slowfade"
+              className="h-28 w-28 lg:w-44 lg:h-44 md:w-36 md:h-36 shadow-2xl rounded-xl animate-slowfade"
               src="/assets/glist%20logo.jpeg"
               alt=""
             />
             <div className="text-white animate-slowfade">
+              <div className="flex justify-start items-start mb-6 md:mb-8 xl:mb-10 space-x-4 text-gray-500 text-lg xl:text-xl">
+                <button className="hover:text-blue-500">
+                  <RxUpdate />
+                </button>
+                <button className="hover:text-red-500">
+                  <RiDeleteBinFill />
+                </button>
+              </div>
+              <div className="text-xs md:text-sm lg:text-lg">
               <p>
-                <strong>Title: </strong>
-                {albumData.title}
+                <strong>{albumData.title}</strong>
               </p>
               <p>
                 <strong>Year: </strong>
@@ -62,13 +72,17 @@ function AlbumDetails() {
                 <strong>Created: </strong>
                 {formatDate(albumData.createdAt)}
               </p>
+              </div>
             </div>
           </>
         ) : (
           <p className="text-white m-5">Cargando detalles del álbum...</p>
         )}
       </div>
-
+      <div className="grid m-4 px-4 py-2 text-white max-w-7xl">
+        <h2 className="mb-2">Description</h2>
+        <p className="text-sm xl:text-base text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores minima dolores aspernatur sequi, quasi corporis repellendus praesentium sapiente delectus maxime! Labore, ad. Expedita dolorem dolorum voluptas ullam tempore tempora officia.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores minima dolores aspernatur sequi, quasi corporis repellendus praesentium sapiente delectus maxime! Labore, ad. Expedita dolorem dolorum voluptas ullam tempore tempora officia.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores minima dolores aspernatur sequi, quasi corporis repellendus praesentium sapiente delectus maxime! Labore, ad. Expedita dolorem dolorum voluptas ullam tempore tempora officia.</p>
+      </div>
       <div className="text-white m-5 animate-slideup">
         <h2 className="mb-4 ml-2">Album songs</h2>
         {albumSongs.length > 0 ? (
