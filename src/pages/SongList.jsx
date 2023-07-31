@@ -36,9 +36,9 @@ function SongList() {
             <Song
               title={song.title}
               duration={song.duration}
-              albumId={song.albumId._id}
+              albumId={song.albumId ? song.albumId._id : null}
               index={index + 1}
-              _id={song._id} // Pasar el ID de la canción a Song
+              _id={song._id}
             />
           </li>
         ))}
