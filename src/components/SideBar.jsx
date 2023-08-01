@@ -24,7 +24,7 @@ function SideBar() {
       lg:max-w-[15rem]"
     >
       <div className="space-y-4">
-        <img src="/assets/glist logo nobg.png" className="w-20 h-20" />
+        <img src="https://groovelistapplication2.s3.amazonaws.com/GrooveList/Landing+Page/logo-transparente.png" className="w-auto h-12 mb-8 mt-2" />
         <Link to="/" className="flex space-x-2 items-center hover:text-white">
           <ImHome className="h-5 w-5" />
           <p>Home</p>
