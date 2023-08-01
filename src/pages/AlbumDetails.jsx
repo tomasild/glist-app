@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Song from "../components/Song";
 import { RxUpdate } from "react-icons/rx";
@@ -12,6 +12,7 @@ function AlbumDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedYear, setEditedYear] = useState("");
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   useEffect(() => {
     console.log("Obteniendo detalles del álbum desde el backend");
@@ -69,6 +70,27 @@ function AlbumDetails() {
       });
   };
 
+  const handleDeleteAlbum = () => {
+    setShowDeletePopup(true);
+  };
+
+  const handleConfirmDelete = () => {
+    axios
+      .delete(`http://localhost:3000/api/albums/${albumId}`)
+      .then((res) => {
+        console.log("Álbum eliminado correctamente");
+        // Redireccionar a la página Home después de eliminar el álbum
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        console.error("Error al eliminar el álbum:", err);
+      });
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeletePopup(false);
+  };
+
   return (
     <div className="flex-grow text-white overflow-y-scroll h-screen scrollbar-hide animate-slowfade">
       <div className="w-full flex items-end space-x-7 bg-gradient-to-b to-black from-orange-950 h-64 text-white p-8">
@@ -87,7 +109,10 @@ function AlbumDetails() {
                 >
                   <RxUpdate />
                 </button>
-                <button className="hover:text-red-500">
+                <button
+                  onClick={handleDeleteAlbum}
+                  className="hover:text-red-500"
+                >
                   <RiDeleteBinFill />
                 </button>
               </div>
@@ -158,17 +183,7 @@ function AlbumDetails() {
       <div className="grid m-4 px-4 py-2 text-white max-w-7xl animate-slideup">
         <h2 className="mb-2">Description</h2>
         <p className="text-sm xl:text-base text-justify">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-          minima dolores aspernatur sequi, quasi corporis repellendus
-          praesentium sapiente delectus maxime! Labore, ad. Expedita dolorem
-          dolorum voluptas ullam tempore tempora officia.Lorem, ipsum dolor sit
-          amet consectetur adipisicing elit. Asperiores minima dolores
-          aspernatur sequi, quasi corporis repellendus praesentium sapiente
-          delectus maxime! Labore, ad. Expedita dolorem dolorum voluptas ullam
-          tempore tempora officia.Lorem, ipsum dolor sit amet consectetur
-          adipisicing elit. Asperiores minima dolores aspernatur sequi, quasi
-          corporis repellendus praesentium sapiente delectus maxime! Labore, ad.
-          Expedita dolorem dolorum voluptas ullam tempore tempora officia.
+          {/* Descripción del álbum */}
         </p>
       </div>
       <div className="text-white m-5 animate-slideup">
@@ -192,6 +207,30 @@ function AlbumDetails() {
           </p>
         )}
       </div>
+
+      {showDeletePopup && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+          <div className="border border-transparent p-6 rounded-md backdrop-filter backdrop-blur-sm bg-slate-300 bg-opacity-10 shadow-lg">
+            <p className="text-lg text-center mb-4 text-white">
+              Are you sure you want to delete this album?
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handleConfirmDelete}
+                className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md text-white font-bold"
+              >
+                Yes
+              </button>
+              <button
+                onClick={handleCancelDelete}
+                className="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-md text-white font-bold"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

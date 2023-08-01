@@ -18,7 +18,7 @@ function Song({ title, duration, _id, albumId, index }) {
   };
 
   // Función para obtener el archivo de audio del backend
-/*   const fetchAudioFile = async () => {
+  const fetchAudioFile = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/songs/${_id}/audio`,
@@ -31,7 +31,7 @@ function Song({ title, duration, _id, albumId, index }) {
     } catch (error) {
       console.error("Error al obtener el archivo de audio:", error);
     }
-  }; */
+  };
 
   return (
     <div
@@ -43,10 +43,10 @@ function Song({ title, duration, _id, albumId, index }) {
     >
       <div className="flex items-center space-x-4 p-1">
         <p className="font-bold">{index}</p>
-        {isHovered ? ( // Show play button icon if hovered
+        {isHovered ? ( 
           <button
             className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center"
-            onClick={fetchAudioFile} // Call the function to fetch audio on button click
+            onClick={fetchAudioFile} 
           >
             <FaPlay />
           </button>

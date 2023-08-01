@@ -7,6 +7,7 @@ const AddSongForm = () => {
   const [duracion, setDuracion] = useState("");
   const [albums, setAlbums] = useState([]);
   const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
+  const [archivoBuffer, setArchivoBuffer] = useState(null);
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -29,11 +30,18 @@ const AddSongForm = () => {
     if (archivo) {
       setArchivoSeleccionado(archivo);
 
-      // Obtenemos la información del archivo seleccionado
+      // Leer el contenido del archivo como un buffer
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const buffer = fileReader.result;
+        setArchivoBuffer(buffer);
+      };
+      fileReader.readAsArrayBuffer(archivo);
+
+      // Rellenar automáticamente la duración de la canción
       const audio = new Audio();
       audio.src = URL.createObjectURL(archivo);
       audio.addEventListener("loadedmetadata", () => {
-        // Rellenar automáticamente la duración de la canción
         const duracionArchivo = Math.floor(audio.duration);
         const minutos = Math.floor(duracionArchivo / 60);
         const segundos = duracionArchivo % 60;
@@ -48,9 +56,8 @@ const AddSongForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     // Validar que todos los campos requeridos estén completos antes de enviar la solicitud POST
-    if (!titulo || !albumId || !duracion || !archivoSeleccionado) {
+    if (!titulo || !albumId || !duracion || !archivoBuffer) {
       console.error("Todos los campos son obligatorios.");
       return;
     }
@@ -59,7 +66,9 @@ const AddSongForm = () => {
     formData.append("title", titulo);
     formData.append("albumId", albumId);
     formData.append("duration", duracion);
-    formData.append("audioFile", archivoSeleccionado);
+
+    // Aquí se envía el archivo como un buffer, en lugar de usar 'archivoSeleccionado'
+    formData.append("audioFile", new Blob([archivoBuffer]));
 
     try {
       const response = await axios.post("http://localhost:3000/api/songs", formData, {
@@ -74,6 +83,7 @@ const AddSongForm = () => {
       setAlbumId("");
       setDuracion("");
       setArchivoSeleccionado(null);
+      setArchivoBuffer(null);
     } catch (error) {
       console.error("Error al agregar la canción:", error);
     }
