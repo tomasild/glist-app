@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  TbPlayerTrackPrevFilled,
-  TbPlayerTrackNextFilled,
   TbPlayerPlayFilled,
-  TbPlayerStopFilled,
+  TbPlayerPauseFilled,
   TbRepeat,
   TbVolume,
+  TbPlayerTrackPrevFilled,
+  TbPlayerTrackNextFilled,
+  TbReload,
 } from "react-icons/tb";
+
+import {MdPlayCircle} from "react-icons/md";
 
 function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
   const [audioReady, setAudioReady] = useState(false);
@@ -24,6 +27,8 @@ function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
         console.error("Error playing audio:", error);
       });
     }
+    // Cambiar el estado de reproducción aquí
+    onPlayPause(!isPlaying);
   };
 
   useEffect(() => {
@@ -58,20 +63,23 @@ function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
         />
         {currentSong && (
           <div>
-            <h3 className="text-xs md:text-sm lg:text-base xl:text-lg">{currentSong.title}</h3>
+            <h3 className="text-xs md:text-sm lg:text-base xl:text-lg w-48 lg:w-full">
+              {currentSong.title}
+            </h3>
             <p>Artist</p>
           </div>
         )}
       </div>
       {/* CENTER */}
-      <div className="flex items-center justify-evenly">
-        <TbPlayerTrackPrevFilled className="button" />
+      <div className="flex items-center justify-end space-x-10">
+        <TbReload className="button" />
+        <TbPlayerTrackPrevFilled className="button"/>
         {isPlaying ? (
-          <TbPlayerStopFilled className="button" onClick={handlePlayPause} />
+          <TbPlayerPauseFilled className="h-7 w-7 cursor-pointer hover:scale-125 transition transform duration-100 ease-out" onClick={handlePlayPause} />
         ) : (
-          <TbPlayerPlayFilled className="button" onClick={handlePlayPause} />
+          <MdPlayCircle className="h-7 w-7 cursor-pointer hover:scale-125 transition transform duration-100 ease-out" onClick={handlePlayPause} />
         )}
-        <TbPlayerTrackNextFilled className="button" />
+        <TbPlayerTrackNextFilled className="button"/>
         <TbRepeat className="button" />
       </div>
       {/* RIGHT */}
