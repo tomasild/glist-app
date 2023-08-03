@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TbSwitch2,
   TbPlayerTrackPrevFilled,
@@ -11,9 +11,22 @@ import {
   TbVolume2,
 } from "react-icons/tb";
 
-
-
 function MusicPlayer() {
+  const [currentSong, setCurrentSong] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Función para manejar la reproducción o pausa de la canción
+  const handlePlayPause = (songData) => {
+    if (currentSong && currentSong.audioUrl === songData.audioUrl) {
+      // Si la misma canción se está reproduciendo, cambiamos el estado de reproducción
+      setIsPlaying(!isPlaying);
+    } else {
+      // Si es una nueva canción, la establecemos como la canción actual y la reproducción inicia automáticamente
+      setCurrentSong(songData);
+      setIsPlaying(true);
+    }
+  };
+
   return (
     <div
       className="h-24 bg-gradient-to-b from-black to-slate-900 
@@ -26,23 +39,49 @@ function MusicPlayer() {
           src="/assets/glist logo.jpeg"
           alt=""
         />
-        <div>
-          <h3>Song Name</h3>
-          <p>Artist</p>
-        </div>
+        {currentSong && (
+          <div>
+            <h3>{currentSong.title}</h3>
+            <p>Artist</p>
+          </div>
+        )}
       </div>
       {/* CENTER  */}
       <div className="flex items-center justify-evenly">
         <TbSwitch2 className="button" />
         <TbPlayerTrackPrevFilled className="button" />
-        <TbPlayerPlayFilled className="button" />
+        {isPlaying ? (
+          <TbPlayerStopFilled
+            className="button"
+            onClick={() => handlePlayPause(currentSong)}
+          />
+        ) : (
+          <TbPlayerPlayFilled
+            className="button"
+            onClick={() => handlePlayPause(currentSong)}
+          />
+        )}
         <TbPlayerTrackNextFilled className="button" />
         <TbRepeat className="button" />
       </div>
       {/* RIGHT  */}
       <div className="flex items-center justify-end mr-5">
-        <TbVolume className="button"/>
+        <TbVolume className="button" />
       </div>
+
+      {/* Audio element para reproducir la canción */}
+      {currentSong && (
+        <audio
+          ref={(audio) => {
+            if (audio) {
+              audio.src = currentSong.audioUrl;
+              if (isPlaying) audio.play();
+              else audio.pause();
+            }
+          }}
+          style={{ display: isPlaying ? "block" : "none" }}
+        />
+      )}
     </div>
   );
 }

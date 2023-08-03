@@ -27,6 +27,11 @@ function SongList() {
     setFilteredSongs(filtered);
   };
 
+  const handlePlay = (songData) => {
+    // Aquí puedes manejar la reproducción de la canción y cualquier otro dato necesario
+    console.log("Reproduciendo canción:", songData);
+  };
+
   return (
     <div className="text-white m-5 animate-slideup">
       <Search onSearch={handleSearch} />
@@ -39,6 +44,7 @@ function SongList() {
               albumId={song.albumId ? song.albumId._id : null}
               index={index + 1}
               _id={song._id}
+              onPlay={handlePlay} // Asegúrate de pasar la función handlePlay como prop
             />
           </li>
         ))}

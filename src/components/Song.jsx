@@ -1,35 +1,50 @@
-import { FaPlay } from 'react-icons/fa';
+import { FaPlay, FaPause } from 'react-icons/fa';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function Song({ title, duration, _id, albumId, index }) {
-  const [audioUrl, setAudioUrl] = useState(null);
-  const [isHovered, setIsHovered] = useState(false); // State to track hover
+function Song({ title, duration, _id, albumId, index, onPlay }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  // Funcion que maneja el efecto hover
   const handleHover = () => {
     setIsHovered(true);
   };
 
-  // Funcion que maneja la salida del mouse sobre el elemento
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
 
-  // Función para obtener el archivo de audio del backend
-  const fetchAudioFile = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/songs/${_id}/audio`,
-        {
-          responseType: "blob",
-        }
-      );
-      const audioBlob = new Blob([response.data], { type: "audio/*" });
-      setAudioUrl(URL.createObjectURL(audioBlob));
-    } catch (error) {
-      console.error("Error al obtener el archivo de audio:", error);
+  const handlePlay = async () => {
+    const audioElement = new Audio();
+    
+    if (!isPlaying) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/songs/${_id}/audio`,
+          {
+            responseType: "blob",
+          }
+        );
+        const audioBlob = new Blob([response.data], { type: "audio/*" });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        
+        // Set the audio source and play it
+        audioElement.src = audioUrl;
+        audioElement.play().catch(error => {
+          console.error("Error playing audio:", error);
+        });
+        
+        setIsPlaying(true);
+        onPlay({ title, duration, audioUrl, albumId }); // Transmit the song data to the MusicPlayer component
+      } catch (error) {
+        console.error("Error obtaining audio file:", error);
+      }
+    } else {
+      // Pause the audio and reset the audio source
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      setIsPlaying(false);
     }
   };
 
@@ -38,17 +53,17 @@ function Song({ title, duration, _id, albumId, index }) {
       className="grid grid-cols-2 px-4 py-2 hover:bg-slate-800 opacity-75 rounded-md text-xs md:text-sm xl:text-base"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleHover} // For touch devices
-      onTouchEnd={handleMouseLeave} // For touch devices
+      onTouchStart={handleHover}
+      onTouchEnd={handleMouseLeave}
     >
       <div className="flex items-center space-x-4 p-1">
         <p className="font-bold">{index}</p>
-        {isHovered ? ( 
+        {isHovered ? (
           <button
             className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center"
-            onClick={fetchAudioFile} 
+            onClick={handlePlay}
           >
-            <FaPlay />
+            {isPlaying ? <FaPause /> : <FaPlay />}
           </button>
         ) : (
           <img src="/assets/glist logo nobg.png" className="w-10 h-10" />
@@ -70,4 +85,3 @@ function Song({ title, duration, _id, albumId, index }) {
 }
 
 export default Song;
-
