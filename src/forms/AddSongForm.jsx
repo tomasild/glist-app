@@ -57,26 +57,38 @@ const AddSongForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     // Validar que todos los campos requeridos estén completos antes de enviar la solicitud POST
     if (!titulo || !albumId || !duracion || !archivoBuffer) {
       console.error("Todos los campos son obligatorios.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", titulo);
-    formData.append("albumId", albumId);
-    formData.append("duration", duracion);
-    formData.append("audioFile", archivoBuffer, archivoSeleccionado.name);
-
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/songs",
-        formData
-      );
+      // Crear un objeto con los datos para la nueva canción
+      const nuevaCancion = {
+        title: titulo,
+        albumId: albumId,
+        duration: duracion,
+      };
+
+      // Crear un objeto FormData para enviar el archivo de música en formato buffer
+      const formData = new FormData();
+      formData.append("title", nuevaCancion.title);
+      formData.append("albumId", nuevaCancion.albumId);
+      formData.append("duration", nuevaCancion.duration);
+      formData.append("file", archivoBuffer, archivoSeleccionado.name);
+
+      // Realizar la petición POST utilizando axios
+      const response = await axios.post("http://localhost:3000/api/songs", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log("Canción agregada:", response.data);
 
+      // Limpiar los campos después de agregar la canción
       setTitulo("");
       setAlbumId("");
       setDuracion("");
@@ -122,7 +134,7 @@ const AddSongForm = () => {
           <input
             type="text"
             value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
+            onChange={(e) => setTitulo(e.target.value)} // Actualiza el estado del título al escribir
             required
             className="w-full rounded-md bg-slate-600 p-1"
           />

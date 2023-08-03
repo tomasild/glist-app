@@ -16,8 +16,8 @@ import {
 function MusicPlayer() {
   return (
     <div
-      className="h-24 bg-gradient-to-b from-black to-slate-700
-      grid grid-cols-3 text-xs md:text-base px-2 md:px-8 fixed bottom-0 w-screen"
+      className="h-24 bg-gradient-to-b from-black to-slate-900 
+      grid grid-cols-3 text-xs md:text-base px-2 md:px-8 border-transparent"
     >
       {/* LEFT  */}
       <div className="flex items-center space-x-4">
