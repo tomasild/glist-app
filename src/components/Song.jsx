@@ -2,9 +2,9 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Song({ title, duration, _id, albumId, index, audioUrl, onPlay, isPlaying }) {
-  const handlePlay = () => {
-    onPlay({ title, duration, _id, albumId, audioUrl });
+function Song({ title, duration, _id, albumId, index, audioUrl, isPlaying, onSongChange }) {
+  const handleSongClick = () => {
+    onSongChange({ title, duration, _id, albumId, audioUrl });
   };
 
   return (
@@ -12,7 +12,7 @@ function Song({ title, duration, _id, albumId, index, audioUrl, onPlay, isPlayin
       className={`grid grid-cols-2 px-4 py-2 hover:bg-slate-800 opacity-75 rounded-md text-xs md:text-sm xl:text-base ${
         isPlaying ? "bg-slate-600" : ""
       }`}
-      onClick={handlePlay}
+      onClick={handleSongClick}
       style={{ cursor: "pointer" }}
     >
       <div className="flex items-center flex-grow space-x-4">
@@ -38,7 +38,6 @@ function Song({ title, duration, _id, albumId, index, audioUrl, onPlay, isPlayin
         <p>{duration}</p>
       </div>
     </div>
-    
   );
 }
 

@@ -3,11 +3,9 @@ import axios from "axios";
 import Song from "../components/Song";
 import MusicPlayer from "../components/MusicPlayer";
 
-
 function SongList() {
   const [songData, setSongData] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
-  const [audioSources, setAudioSources] = useState({});
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -18,13 +16,6 @@ function SongList() {
       .then((res) => {
         setSongData(res.data);
         setFilteredSongs(res.data);
-
-        const audioSourcesObj = {};
-        res.data.forEach((song) => {
-          const audioUrl = `http://localhost:3000/api/songs/${song._id}/audio`;
-          audioSourcesObj[song._id] = audioUrl;
-        });
-        setAudioSources(audioSourcesObj);
       })
       .catch((err) => {
         console.error("Error al obtener las canciones:", err);
@@ -38,29 +29,25 @@ function SongList() {
     setFilteredSongs(filtered);
   };
 
-  const handlePlay = (songData) => {
-    if (currentSong && currentSong._id === songData._id) {
-      if (currentSong.audioElement.paused) {
-        currentSong.audioElement.play().catch((error) => {
-          console.error("Error playing audio:", error);
-        });
-        setIsPlaying(true);
-      } else {
-        currentSong.audioElement.pause();
-        setIsPlaying(false);
-      }
-    } else {
-      if (currentSong && currentSong.audioElement) {
-        currentSong.audioElement.pause();
-      }
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
 
-      const audioElement = new Audio(audioSources[songData._id]);
-      audioElement.play().catch((error) => {
-        console.error("Error playing audio:", error);
-      });
+  const handleSongChange = (songData) => {
+    // Pausar la canción actual antes de cambiar a la nueva canción
+    if (currentSong && currentSong.audioElement) {
+      currentSong.audioElement.pause();
+    }
 
-      setCurrentSong({ ...songData, audioElement });
+    // Actualizar la nueva canción solo si es diferente a la actual
+    if (currentSong && currentSong._id !== songData._id) {
+      setCurrentSong(songData);
       setIsPlaying(true);
+    } else if (!currentSong) {
+      setCurrentSong(songData);
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -76,9 +63,9 @@ function SongList() {
               albumId={song.albumId ? song.albumId._id : null}
               index={index + 1}
               _id={song._id}
-              audioUrl={audioSources[song._id]} // Agrega la prop audioUrl al componente Song
-              onPlay={handlePlay}
-              isPlaying={currentSong && currentSong._id === song._id && isPlaying} // Usa isPlaying del SongList
+              audioUrl={`http://localhost:3000/api/songs/${song._id}/audio`}
+              isPlaying={currentSong && currentSong._id === song._id && isPlaying}
+              onSongChange={handleSongChange} // Corregir el nombre de la prop para pasar la función correcta
             />
           </li>
         ))}
@@ -87,7 +74,11 @@ function SongList() {
       {/* Aquí mostramos el componente MusicPlayer */}
       {currentSong && (
         <div className="fixed bottom-0 w-full left-0">
-        <MusicPlayer currentSong={currentSong} isPlaying={isPlaying} />
+          <MusicPlayer
+            currentSong={currentSong}
+            isPlaying={isPlaying}
+            onPlayPause={() => setIsPlaying(!isPlaying)}
+          />
         </div>
       )}
     </div>
