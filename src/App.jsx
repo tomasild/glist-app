@@ -26,7 +26,7 @@ function App() {
         <SideBar />
         {routes}
       </main>
-      <div className="absolute b-0 w-full text-white">
+      <div className="fixed bottom-0 left-0 w-full text-white">
         <MusicPlayer />
       </div>
     </div>

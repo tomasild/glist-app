@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TbSwitch2,
   TbPlayerTrackPrevFilled,
@@ -27,9 +27,16 @@ function MusicPlayer() {
     }
   };
 
+  useEffect(() => {
+    // Pausar la canción actual si el estado de reproducción cambia a false
+    if (!isPlaying && currentSong?.audioElement) {
+      currentSong.audioElement.pause();
+    }
+  }, [isPlaying]);
+
   return (
     <div
-      className="h-24 bg-gradient-to-b from-black to-slate-900 
+      className="h-20 bg-gradient-to-b from-black to-slate-900 
       grid grid-cols-3 text-xs md:text-base px-2 md:px-8 border-transparent"
     >
       {/* LEFT  */}
