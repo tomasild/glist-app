@@ -29,13 +29,13 @@ function SideBar() {
           <ImHome className="h-5 w-5" />
           <p>Home</p>
         </Link>
-        <Link
+        {/* <Link
           to="/search"
           className="flex space-x-2 items-center hover:text-white"
         >
           <ImSearch className="h-5 w-5" />
           <p>Search</p>
-        </Link>
+        </Link> */}
         <Link
           to="/song-list"
           className="flex space-x-2 items-center hover:text-white"

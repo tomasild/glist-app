@@ -6,7 +6,10 @@ import { RxUpdate } from "react-icons/rx";
 import { RiDeleteBinFill } from "react-icons/ri";
 
 function AlbumDetails() {
+  // Se obtiene el parámetro 'albumId' de la URL utilizando el hook 'useParams'
   const { albumId } = useParams();
+
+  // Estado local del componente
   const [albumData, setAlbumData] = useState(null);
   const [albumSongs, setAlbumSongs] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -14,8 +17,9 @@ function AlbumDetails() {
   const [editedYear, setEditedYear] = useState("");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
+  // Hook 'useEffect' para cargar los datos del álbum y las canciones al montar el componente
   useEffect(() => {
-    console.log("Obteniendo detalles del álbum desde el backend");
+    // Obtener detalles del álbum desde el backend
     axios
       .get(`http://localhost:3000/api/albums/${albumId}`)
       .then((res) => {
@@ -25,7 +29,7 @@ function AlbumDetails() {
         console.error("Error al obtener detalles del álbum:", err);
       });
 
-    console.log("Obteniendo canciones del álbum desde el backend");
+    // Obtener canciones del álbum desde el backend
     axios
       .get(`http://localhost:3000/api/songs/album/${albumId}`)
       .then((res) => {
@@ -36,11 +40,13 @@ function AlbumDetails() {
       });
   }, [albumId]);
 
+  // Función para formatear una fecha en formato local (español)
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("es-ES");
   };
 
+  // Manejadores para el modo de edición
   const handleEditClick = () => {
     setIsEditing(true);
     setEditedTitle(albumData?.title || "");
@@ -70,6 +76,7 @@ function AlbumDetails() {
       });
   };
 
+  // Manejadores para eliminar el álbum
   const handleDeleteAlbum = () => {
     setShowDeletePopup(true);
   };
@@ -91,11 +98,15 @@ function AlbumDetails() {
     setShowDeletePopup(false);
   };
 
+  // Renderizado del componente
   return (
     <div className="flex-grow text-white overflow-y-scroll h-screen scrollbar-hide animate-slowfade">
+      {/* Sección de detalles del álbum */}
       <div className="w-full flex items-end space-x-7 bg-gradient-to-b to-black from-orange-950 h-64 text-white p-8">
+        {/* Modo de vista no editable */}
         {albumData && !isEditing ? (
           <>
+            {/* Imagen del álbum */}
             <img
               className="h-28 w-28 lg:w-44 lg:h-44 md:w-36 md:h-36 shadow-2xl rounded-xl animate-slowfade"
               src="/assets/glist%20logo.jpeg"
@@ -103,6 +114,7 @@ function AlbumDetails() {
             />
             <div className="text-white animate-slowfade">
               <div className="flex justify-start items-start mb-6 md:mb-8 xl:mb-10 space-x-4 text-gray-500 text-lg xl:text-xl">
+                {/* Botones de editar y eliminar */}
                 <button
                   onClick={handleEditClick}
                   className="hover:text-blue-500"
@@ -117,6 +129,7 @@ function AlbumDetails() {
                 </button>
               </div>
               <div className="text-xs md:text-sm lg:text-lg">
+                {/* Detalles del álbum */}
                 <p>
                   <strong>{albumData.title}</strong>
                 </p>
@@ -136,8 +149,10 @@ function AlbumDetails() {
             </div>
           </>
         ) : (
+          // Modo de edición
           <div className="text-white animate-slowfade">
             <div className="text-xs md:text-sm lg:text-lg flex flex-col space-y-2">
+              {/* Campos editables del álbum */}
               <input
                 className="rounded-md bg-slate-600 p-1 text-xs xl:text-base"
                 type="text"
@@ -152,6 +167,7 @@ function AlbumDetails() {
               />
               {albumData && (
                 <div className="text-xs md:text-sm xl:text-base">
+                  {/* Detalles del álbum en modo edición */}
                   <p>
                     <strong>Updated: </strong>
                     {formatDate(albumData.updatedAt)}
@@ -164,6 +180,7 @@ function AlbumDetails() {
               )}
             </div>
             <div className="flex justify-start items-start space-x-4 text-sm xl:text-lg pt-2 text-white font-semibold">
+              {/* Botones de guardar y cancelar edición */}
               <button
                 onClick={handleSaveClick}
                 className="w-full px-1 rounded-sm bg-green-700 hover:bg-opacity-70"
@@ -180,6 +197,7 @@ function AlbumDetails() {
           </div>
         )}
       </div>
+      {/* Descripción del álbum */}
       <div className="grid m-4 px-4 py-2 text-white max-w-7xl animate-slideup">
         <h2 className="mb-2">Description</h2>
         <p className="text-sm xl:text-base text-justify">
@@ -188,10 +206,12 @@ function AlbumDetails() {
       </div>
       <div className="text-white m-5 animate-slideup">
         <h2 className="mb-4 ml-2">Album songs</h2>
+        {/* Lista de canciones del álbum */}
         {albumSongs.length > 0 ? (
           <ul className="space-y-1">
             {albumSongs.map((song, index) => (
               <li key={song._id}>
+                {/* Renderizado de cada canción */}
                 <Song
                   title={song.title}
                   duration={song.duration}
@@ -202,12 +222,14 @@ function AlbumDetails() {
             ))}
           </ul>
         ) : (
+          // Mensaje cuando no hay canciones asociadas al álbum
           <p className="text-white m-5 animate-slideup">
             No se encontraron canciones asociadas al álbum.
           </p>
         )}
       </div>
 
+      {/* Popup de confirmación para eliminar el álbum */}
       {showDeletePopup && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
           <div className="border border-transparent p-6 rounded-md backdrop-filter backdrop-blur-sm bg-slate-300 bg-opacity-10 shadow-lg">

@@ -30,11 +30,12 @@ const AddSongForm = () => {
     if (archivo) {
       setArchivoSeleccionado(archivo);
 
-      // Leer el contenido del archivo como un buffer
+      // Leer el contenido del archivo como un blob
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const buffer = fileReader.result;
-        setArchivoBuffer(buffer);
+        const blob = new Blob([new Uint8Array(buffer)]); // Convertir el buffer a Blob
+        setArchivoBuffer(blob);
       };
       fileReader.readAsArrayBuffer(archivo);
 
@@ -66,16 +67,13 @@ const AddSongForm = () => {
     formData.append("title", titulo);
     formData.append("albumId", albumId);
     formData.append("duration", duracion);
-
-    // Aquí se envía el archivo como un buffer, en lugar de usar 'archivoSeleccionado'
-    formData.append("audioFile", new Blob([archivoBuffer]));
+    formData.append("audioFile", archivoBuffer, archivoSeleccionado.name);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/songs", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/songs",
+        formData
+      );
 
       console.log("Canción agregada:", response.data);
 
