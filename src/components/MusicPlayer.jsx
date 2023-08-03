@@ -1,43 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
-  TbSwitch2,
   TbPlayerTrackPrevFilled,
   TbPlayerTrackNextFilled,
   TbPlayerPlayFilled,
   TbPlayerStopFilled,
   TbRepeat,
   TbVolume,
-  TbVolumeOff,
-  TbVolume2,
 } from "react-icons/tb";
 
-function MusicPlayer() {
-  const [currentSong, setCurrentSong] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // Función para manejar la reproducción o pausa de la canción
-  const handlePlayPause = (songData) => {
-    if (currentSong && currentSong.audioUrl === songData.audioUrl) {
-      // Si la misma canción se está reproduciendo, cambiamos el estado de reproducción
-      setIsPlaying(!isPlaying);
-    } else {
-      // Si es una nueva canción, la establecemos como la canción actual y la reproducción inicia automáticamente
-      setCurrentSong(songData);
-      setIsPlaying(true);
-    }
-  };
-
-  useEffect(() => {
-    // Pausar la canción actual si el estado de reproducción cambia a false
-    if (!isPlaying && currentSong?.audioElement) {
-      currentSong.audioElement.pause();
-    }
-  }, [isPlaying]);
-
+function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
   return (
     <div
       className="h-20 bg-gradient-to-b from-black to-slate-900 
-      grid grid-cols-3 text-xs md:text-base px-2 md:px-8 border-transparent"
+      grid grid-cols-3 text-xs md:text-base px-2 md:px-8 border-transparent animate-slideup"
     >
       {/* LEFT  */}
       <div className="flex items-center space-x-4">
@@ -55,18 +30,11 @@ function MusicPlayer() {
       </div>
       {/* CENTER  */}
       <div className="flex items-center justify-evenly">
-        <TbSwitch2 className="button" />
         <TbPlayerTrackPrevFilled className="button" />
         {isPlaying ? (
-          <TbPlayerStopFilled
-            className="button"
-            onClick={() => handlePlayPause(currentSong)}
-          />
+          <TbPlayerStopFilled className="button" onClick={onPlayPause} />
         ) : (
-          <TbPlayerPlayFilled
-            className="button"
-            onClick={() => handlePlayPause(currentSong)}
-          />
+          <TbPlayerPlayFilled className="button" onClick={onPlayPause} />
         )}
         <TbPlayerTrackNextFilled className="button" />
         <TbRepeat className="button" />

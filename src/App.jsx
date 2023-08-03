@@ -1,7 +1,6 @@
 import React from "react";
 import SideBar from "./components/SideBar";
 import Center from "./components/Center";
-import MusicPlayer from "./components/MusicPlayer";
 import { useRoutes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AlbumList from "./pages/AlbumList";
@@ -26,9 +25,6 @@ function App() {
         <SideBar />
         {routes}
       </main>
-      <div className="fixed bottom-0 left-0 w-full text-white">
-        <MusicPlayer />
-      </div>
     </div>
   );
 }
