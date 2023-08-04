@@ -1,7 +1,7 @@
 
 
 ![Groovelist Logo](https://groovelistapplication2.s3.amazonaws.com/GrooveList/Landing+Page/logo-transparente.png) 
-# Desafío Groovelist - Catálogo Musical
+# Desafío Groovelist - Catálogo Musical - Frontend
 
 Proyecto desarrollado como prueba técnica para Startup Groovelist. Esta aplicación es una herramienta de gestión de un catálogo musical, que permite listar, agregar y modificar la información de las canciones y su relación con los álbumes a los que pertenecen.
 
@@ -49,15 +49,6 @@ Para continuar con la ejecucion de este proyecto deberás clonar el repositorio 
 
 [Enlace al repositorio glist-app-back](https://github.com/tomasild/glist-app-back)
 
-## Contribución
-
-Si deseas contribuir a este proyecto, por favor, sigue las siguientes pautas:
-
-1. Haz un fork del repositorio y clona tu copia.
-2. Crea una nueva rama para tu contribución: `git checkout -b nombre-de-tu-rama`.
-3. Realiza tus cambios y realiza commits descriptivos.
-4. Sube los cambios a tu repositorio: `git push origin nombre-de-tu-rama`.
-5. Crea un Pull Request con una descripción clara de tus cambios.
 
 ## Créditos
 
