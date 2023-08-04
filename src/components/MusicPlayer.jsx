@@ -63,7 +63,7 @@ function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
         />
         {currentSong && (
           <div>
-            <h3 className="text-xs md:text-sm lg:text-base xl:text-lg w-48 lg:w-full">
+            <h3 className="text-xs md:text-sm lg:text-base w-48 lg:w-auto">
               {currentSong.title}
             </h3>
             <p>Artist</p>
@@ -71,7 +71,7 @@ function MusicPlayer({ currentSong, isPlaying, onPlayPause }) {
         )}
       </div>
       {/* CENTER */}
-      <div className="flex items-center justify-end space-x-10">
+      <div className="flex items-center justify-end space-x-4">
         <TbReload className="button" />
         <TbPlayerTrackPrevFilled className="button"/>
         {isPlaying ? (

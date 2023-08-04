@@ -232,7 +232,7 @@ function AlbumDetails() {
       {/* Popup de confirmación para eliminar el álbum */}
       {showDeletePopup && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
-          <div className="border border-transparent p-6 rounded-md backdrop-filter backdrop-blur-sm bg-slate-300 bg-opacity-10 shadow-lg">
+          <div className="border border-transparent p-6 rounded-md backdrop-filter backdrop-blur-sm bg-slate-500 bg-opacity-10 shadow-lg">
             <p className="text-lg text-center mb-4 text-white">
               Are you sure you want to delete this album?
             </p>
