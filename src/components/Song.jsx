@@ -8,6 +8,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000/api";
 
+// Componente de una canción en la lista de canciones
 function Song({
   title,
   duration,
@@ -18,30 +19,40 @@ function Song({
   isPlaying,
   onSongChange,
 }) {
+  // Manejar el clic en la canción para reproducirla
   const handleSongClick = () => {
     onSongChange({ title, duration, _id, albumId, audioUrl });
   };
 
+  // Estado local para mostrar o ocultar detalles adicionales de la canción
   const [showDetails, setShowDetails] = useState(false);
+  // Estado local para controlar si la canción está en modo de edición
   const [isEditing, setIsEditing] = useState(false);
+  // Estados locales para almacenar los valores editados del título, duración y artista
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedDuration, setEditedDuration] = useState(duration);
   const [editedArtist, setEditedArtist] = useState("");
+  // Estado local para mostrar o ocultar el popup de confirmación de eliminación
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  // Estado local para almacenar el ID de la canción que se va a eliminar
   const [songToDeleteId, setSongToDeleteId] = useState("");
 
+  // Función para mostrar u ocultar los detalles adicionales de la canción
   const toggleDetails = () => {
     setShowDetails(!showDetails);
   };
 
+  // Manejar el clic en el botón de editar
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
+  // Manejar el clic en el botón de cancelar edición
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
+  // Manejar el clic en el botón de guardar cambios
   const handleSaveClick = async () => {
     // Realizar la llamada a la API para actualizar la canción
     const updatedSong = {
@@ -61,27 +72,33 @@ function Song({
     }
   };
 
+  // Manejar el clic en el botón de eliminar
   const handleDeleteClick = (songId) => {
     setSongToDeleteId(songId);
     setShowDeletePopup(true);
   };
 
+  // Manejar la eliminación de la canción
   const handleDeleteSong = async (songId) => {
     try {
       await axios.delete(`${BASE_URL}/songs/${songId}`);
       setShowDeletePopup(false);
-      // Puedes refrescar la lista de canciones o hacer cualquier otra acción necesaria
+      console.log("Canción eliminada correctamente");
+      // Redireccionar a la página Home después de eliminar el álbum
+      window.location.href = "/";
     } catch (error) {
       console.error("Error al eliminar la canción:", error);
     }
   };
 
+  // JSX del componente de la canción
   return (
     <div
       className={`grid grid-cols-2 px-4 py-2 hover:bg-slate-800 opacity-75 rounded-md text-xs md:text-sm xl:text-base ${
         isPlaying ? "bg-slate-900" : ""
       }`}
     >
+      {/* Sección izquierda */}
       <div className="flex items-center flex-grow space-x-2">
         <p className="font-bold mr-2">{index}</p>
         <img
@@ -99,6 +116,7 @@ function Song({
           {isPlaying ? <FaPause /> : <FaPlay />}
         </div>
         <div className="flex flex-col ml-4">
+          {/* Título de la canción */}
           <p
             className="w-32 md:w-40 lg:w-72 truncate"
             onClick={handleSongClick}
@@ -110,7 +128,9 @@ function Song({
         </div>
       </div>
 
+      {/* Sección derecha */}
       <div className="flex items-center justify-between ml-auto md:ml-0">
+        {/* Enlace al álbum */}
         <Link to={`/album/${albumId}`} className="cursor-pointer">
           <p className="cursor-pointer hidden md:inline">{albumId}</p>
         </Link>
@@ -142,12 +162,12 @@ function Song({
               <RiDeleteBinFill className="cursor-pointer hover:scale-125 transition transform duration-100 ease-out" />
             </button>
             {/* Botón de editar */}
-            <button
+            {/* <button
               className="hover:text-blue-500 hover:underline"
               onClick={handleEditClick}
             >
               <RxUpdate className="cursor-pointer hover:scale-125 transition transform duration-100 ease-out" />
-            </button>
+            </button> */}
           </div>
         </div>
       )}
@@ -157,7 +177,7 @@ function Song({
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
           <div className="border border-transparent p-6 rounded-md backdrop-filter backdrop-blur-sm bg-slate-500 bg-opacity-10 shadow-lg">
             <p className="text-lg text-center mb-4 text-white">
-              Are you sure you want to delete this album?
+              Are you sure you want to delete this song?
             </p>
             <div className="flex justify-center space-x-4">
               <button

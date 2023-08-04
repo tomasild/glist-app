@@ -36,10 +36,13 @@ function AlbumList() {
 
   return (
     <div className="text-white m-5 animate-slideup">
+      {/* Componente de búsqueda */}
       <Search onSearch={handleSearch} />
+      {/* Lista de álbumes */}
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {filteredAlbums.map((album) => (
           <li key={album._id}>
+            {/* Renderizado de cada álbum */}
             <Album
               title={album.title}
               year={album.year}

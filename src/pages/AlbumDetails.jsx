@@ -10,12 +10,12 @@ function AlbumDetails() {
   const { albumId } = useParams();
 
   // Estado local del componente
-  const [albumData, setAlbumData] = useState(null);
-  const [albumSongs, setAlbumSongs] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState("");
-  const [editedYear, setEditedYear] = useState("");
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [albumData, setAlbumData] = useState(null); // Almacena los detalles del álbum
+  const [albumSongs, setAlbumSongs] = useState([]); // Almacena la lista de canciones del álbum
+  const [isEditing, setIsEditing] = useState(false); // Indica si se está en modo de edición
+  const [editedTitle, setEditedTitle] = useState(""); // Almacena el título editado del álbum
+  const [editedYear, setEditedYear] = useState(""); // Almacena el año editado del álbum
+  const [showDeletePopup, setShowDeletePopup] = useState(false); // Indica si se muestra el popup de confirmación para eliminar el álbum
 
   // Hook 'useEffect' para cargar los datos del álbum y las canciones al montar el componente
   useEffect(() => {

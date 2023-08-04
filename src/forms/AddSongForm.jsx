@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+// Componente del formulario para agregar una nueva canción
 const AddSongForm = () => {
+  // Estados locales para almacenar el título, el ID del álbum, la duración, la lista de álbumes,
+  // el archivo seleccionado y el contenido del archivo en formato buffer
   const [titulo, setTitulo] = useState("");
   const [albumId, setAlbumId] = useState("");
   const [duracion, setDuracion] = useState("");
@@ -9,6 +12,7 @@ const AddSongForm = () => {
   const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
   const [archivoBuffer, setArchivoBuffer] = useState(null);
 
+  // useEffect para cargar la lista de álbumes desde la API al montar el componente
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
@@ -21,16 +25,18 @@ const AddSongForm = () => {
     fetchAlbums();
   }, []);
 
+  // Manejar el cambio de la duración en el campo de entrada
   const handleDuracionChange = (e) => {
     setDuracion(e.target.value);
   };
 
+  // Manejar el cambio de archivo seleccionado en el campo de entrada de archivos
   const handleFileChange = (e) => {
     const archivo = e.target.files[0];
     if (archivo) {
       setArchivoSeleccionado(archivo);
 
-      // Leer el contenido del archivo como un blob
+      // Leer el contenido del archivo como un blob y convertirlo en buffer
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const buffer = fileReader.result;
@@ -55,6 +61,7 @@ const AddSongForm = () => {
     }
   };
 
+  // Manejar el envío del formulario para agregar una nueva canción
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -79,7 +86,7 @@ const AddSongForm = () => {
       formData.append("duration", nuevaCancion.duration);
       formData.append("file", archivoBuffer, archivoSeleccionado.name);
 
-      // Realizar la petición POST utilizando axios
+      // Realizar la petición POST utilizando axios y enviar el formulario
       const response = await axios.post("http://localhost:3000/api/songs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -99,10 +106,12 @@ const AddSongForm = () => {
     }
   };
 
+  // JSX del componente del formulario de agregar canción
   return (
     <div className="flex flex-col w-auto h-64 p-2 font-semibold text-white">
       <h2 className="p-2 text-white text-center">Agregar Nueva Canción</h2>
       <form onSubmit={handleSubmit} className="flex flex-col p-2 space-y-2">
+        {/* Selector para elegir el álbum */}
         <div className="flex justify-end">
           <label className="mr-2">Álbum</label>
           <select
@@ -119,6 +128,7 @@ const AddSongForm = () => {
             ))}
           </select>
         </div>
+        {/* Campo de entrada para seleccionar el archivo de audio */}
         <div className="flex justify-end">
           <label className="mr-2">Audio file</label>
           <input
@@ -129,6 +139,7 @@ const AddSongForm = () => {
             className="w-full rounded-md bg-slate-600 p-1 mb-2"
           />
         </div>
+        {/* Campo de entrada para el título de la canción */}
         <div className="flex justify-end">
           <label className="mr-2">Título</label>
           <input
@@ -139,6 +150,7 @@ const AddSongForm = () => {
             className="w-full rounded-md bg-slate-600 p-1"
           />
         </div>
+        {/* Campo de entrada para la duración de la canción */}
         <div className="flex justify-end">
           <label className="mr-2">Duración</label>
           <input
@@ -150,6 +162,7 @@ const AddSongForm = () => {
             className="w-full rounded-md bg-slate-600 p-1 mb-2"
           />
         </div>
+        {/* Botón para agregar la canción */}
         <button
           type="submit"
           className="bg-orange-400 hover:bg-opacity-70 text-white font-bold py-2 px-4 rounded"

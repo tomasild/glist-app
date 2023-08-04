@@ -10,6 +10,7 @@ import AddAlbumForm from "./forms/AddAlbumForm";
 import AddSongForm from "./forms/AddSongForm";
 
 function App() {
+  // Definición de las rutas para la navegación utilizando el hook 'useRoutes'
   const routes = useRoutes([
     { path: "/", element: <Center pageTitle="Home"><Home /></Center> },
     { path: "/song-list", element: <Center pageTitle="Song List"><SongList /></Center> },
@@ -22,7 +23,9 @@ function App() {
   return (
     <div className="bg-black h-screen">
       <main className="flex">
+        {/* Renderizado de la barra lateral */}
         <SideBar />
+        {/* Renderizado del contenido principal */}
         {routes}
       </main>
     </div>
