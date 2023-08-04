@@ -1,7 +1,7 @@
 
 
 ![Groovelist Logo](https://groovelistapplication2.s3.amazonaws.com/GrooveList/Landing+Page/logo-transparente.png) 
-# Desafío Groovelist - Catálogo Musical
+# Desafío Groovelist - Catálogo Musical - Frontend
 
 Proyecto desarrollado como prueba técnica para Startup Groovelist. Esta aplicación es una herramienta de gestión de un catálogo musical, que permite listar, agregar y modificar la información de las canciones y su relación con los álbumes a los que pertenecen.
 
