@@ -49,15 +49,6 @@ Para continuar con la ejecucion de este proyecto deberás clonar el repositorio 
 
 [Enlace al repositorio glist-app-back](https://github.com/tomasild/glist-app-back)
 
-## Contribución
-
-Si deseas contribuir a este proyecto, por favor, sigue las siguientes pautas:
-
-1. Haz un fork del repositorio y clona tu copia.
-2. Crea una nueva rama para tu contribución: `git checkout -b nombre-de-tu-rama`.
-3. Realiza tus cambios y realiza commits descriptivos.
-4. Sube los cambios a tu repositorio: `git push origin nombre-de-tu-rama`.
-5. Crea un Pull Request con una descripción clara de tus cambios.
 
 ## Créditos
 
